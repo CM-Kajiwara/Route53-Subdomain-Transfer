@@ -37,7 +37,7 @@ echo "作成したHostedZoneIdは $createdHostedZoneId です。"
 echo "作成したHostedZoneのNSRecoredは $nsRecords です。"
 # 確認用のレコードを作成しておきます。
 cp TXTRecord_template.json TXTRecord.json
-gsed -i"" -e "s/%subdomain%/$SubDomain/" $WORKDIR/TXTRecord.json
+sed -i"" -e "s/%subdomain%/$SubDomain/" $WORKDIR/TXTRecord.json
 aws route53 change-resource-record-sets --hosted-zone-id $createdHostedZoneId --change-batch file://$WORKDIR/TXTRecord.json --profile ${AccountB_Profile}
 # 登録したレコードが見えないことを確認します。
 echo "登録したレコードが見えないことを確認します。create test のレコードが見えていなければ成功です。"
@@ -45,7 +45,7 @@ dig TXT @8.8.8.8 ${SubDomain}
 read -p "Hit enter: "
 # 2. 1で作成されたサブドメインのNSレコードをアカウントA（委譲元）のNSレコードに設定
 cp NSRecord_template.json NSRecordTemp.json
-gsed -i"" -e "s/%subdomain%/$SubDomain/" $WORKDIR/NSRecordTemp.json
+sed -i"" -e "s/%subdomain%/$SubDomain/" $WORKDIR/NSRecordTemp.json
 cat NSRecordTemp.json | jq ".Changes[0].ResourceRecordSet.ResourceRecords |= .+${nsRecords}" > NSRecord.json
 rm NSRecordTemp.json # 中間ファイルを削除
 targetHostedZoneId=`aws route53 list-hosted-zones-by-name --dns-name ${targetDomain} --profile ${AccountA_Profile} | jq -r ".HostedZones[]| select(.Name == \"${targetDomain}\").Id"`
