@@ -40,7 +40,7 @@ cp TXTRecord_template.json TXTRecord.json
 gsed -i"" -e "s/%subdomain%/$SubDomain/" $WORKDIR/TXTRecord.json
 aws route53 change-resource-record-sets --hosted-zone-id $createdHostedZoneId --change-batch file://$WORKDIR/TXTRecord.json --profile ${AccountB_Profile}
 # 登録したレコードが見えないことを確認します。
-echo "登録したレコードが見えないことを確認します。`create test` のレコードが見えていなければ成功です。"
+echo "登録したレコードが見えないことを確認します。create test のレコードが見えていなければ成功です。"
 dig TXT @8.8.8.8 ${SubDomain}
 read -p "Hit enter: "
 # 2. 1で作成されたサブドメインのNSレコードをアカウントA（委譲元）のNSレコードに設定
@@ -54,5 +54,5 @@ countDown
 aws route53 change-resource-record-sets --hosted-zone-id $targetHostedZoneId --change-batch file://$WORKDIR/NSRecord.json --profile ${AccountA_Profile}
 echo "登録したレコードを確認するために一度待機します。"
 countDown
-echo "登録したレコードが見えることを確認します。`create test` のレコードが見えていれば成功です。"
+echo "登録したレコードが見えることを確認します。create test のレコードが見えていれば成功です。"
 dig TXT @8.8.8.8 ${SubDomain}
