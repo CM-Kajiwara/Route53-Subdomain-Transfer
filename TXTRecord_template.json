@@ -1,0 +1,18 @@
+{
+    "Comment": "Update record set",
+    "Changes": [
+      {
+        "Action": "UPSERT",
+        "ResourceRecordSet": {
+          "Name": "%subdomain%",
+          "Type": "TXT",
+          "TTL": 300,
+          "ResourceRecords": [
+            {
+              "Value": "\"create test\""
+            }
+          ]
+        }
+      }
+    ]
+  }

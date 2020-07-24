@@ -1,0 +1,14 @@
+{
+    "Comment": "Update record set",
+    "Changes": [
+      {
+        "Action": "UPSERT",
+        "ResourceRecordSet": {
+          "Name": "%subdomain%",
+          "Type": "NS",
+          "TTL": 172800,
+          "ResourceRecords": []
+        }
+      }
+    ]
+  }
